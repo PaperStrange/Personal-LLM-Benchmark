@@ -1,10 +1,10 @@
-"""Regression tests for judge/trace_check.py (Phase 3c).
+"""Regression tests for src/llm_workflow_eval/judge/trace_check.py (Phase 3c).
 
 Hand-verifiable inputs: a looping trace must be flagged, a healthy varied
 trace must not be, an alternating A/B trace must be flagged as thrashing,
 and the reported entropy must match a hand computation. No named metrics —
 plain consecutive-repetition and low-variety-window detection, per
-research/LLM-BENCHMARK-LANDSCAPE.md item 16.
+docs/landscape.md item 16.
 """
 import json
 import os
@@ -14,10 +14,10 @@ import tempfile
 import unittest
 
 PACK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CHECKER = os.path.join(PACK, "judge", "trace_check.py")
+CHECKER = os.path.join(PACK, "src", "llm_workflow_eval", "judge", "trace_check.py")
 
-sys.path.insert(0, PACK)
-from judge.trace_check import analyze_trace, load_trace  # noqa: E402
+sys.path.insert(0, os.path.join(PACK, "src"))
+from llm_workflow_eval.judge.trace_check import analyze_trace, load_trace  # noqa: E402
 
 
 def ev(step, role, action, target, outcome="ok", note=None):
