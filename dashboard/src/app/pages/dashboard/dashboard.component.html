@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-md-3 col-sm-6" *ngFor="let s of stats">
+    <nb-card>
+      <nb-card-body>
+        <div class="stat">
+          <nb-icon [icon]="s.icon" [status]="s.status"></nb-icon>
+          <div>
+            <div class="value">{{ s.value }}</div>
+            <div class="title">{{ s.title }}</div>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <nb-card>
+      <nb-card-header>Qualification gates</nb-card-header>
+      <nb-card-body>
+        <div echarts [options]="gateChart" class="chart"></div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-md-6">
+    <nb-card>
+      <nb-card-header>Model scores (composite)</nb-card-header>
+      <nb-card-body>
+        <div echarts [options]="modelChart" class="chart"></div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <nb-card>
+      <nb-card-header>Key finding</nb-card-header>
+      <nb-card-body>
+        Zero-spend local qualification is complete. The 1.5B local model is the
+        bottleneck, not the harness — Gate 2 went 0/3 and the T1 baseline scored
+        0/22 (prompt echo). Live Jev calibration, candidate shortlist, and the
+        ranked comparison remain <strong>[OPEN]</strong>.
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+@import '../../@theme/styles/themes';
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  nb-icon {
+    font-size: 2.5rem;
+  }
+
+  .value {
+    font-size: 1.75rem;
+    font-weight: bold;
+  }
+
+  .title {
+    color: nb-theme(text-hint-color);
+  }
+}
+
+.chart {
+  height: 300px;
+}

@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-md-6 col-xl-4" *ngFor="let g of gates">
+    <nb-card [status]="g.status === 'pass' ? 'success' : g.status === 'fail' ? 'danger' : 'warning'">
+      <nb-card-header>
+        <nb-icon [icon]="statusIcon[g.status]"></nb-icon>
+        Gate {{ g.id }} — {{ g.name }}
+      </nb-card-header>
+      <nb-card-body>
+        <p>{{ g.summary }}</p>
+        <code>{{ g.evidence }}</code>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
