@@ -1,9 +1,9 @@
 # Pack test overview — "eval the evals"
 
-- Timestamp: 2026-09-30T23:12:25-07:00
+- Timestamp: 2026-10-01T23:50:27-07:00
 - Python: 3.12.3
 - Command: `python3 tests/run_all.py` (from pack root)
-- Tests run: 100 · failures: 0 · errors: 0 · skipped: 0
+- Tests run: 103 · failures: 0 · errors: 0 · skipped: 0
 - **Suite verdict: PASS**
 
 ## Per-module results
@@ -20,6 +20,7 @@
 | test_rotation | PASS |
 | test_rubrics | PASS |
 | test_t0_gate | PASS |
+| test_t0_ref_requirement | PASS |
 | test_trace_check | PASS |
 
 ## Key methodology numbers (probed live, not hardcoded)

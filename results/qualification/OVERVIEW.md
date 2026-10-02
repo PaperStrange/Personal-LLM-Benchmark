@@ -42,11 +42,15 @@ Plural independent review completed 2026-10-01: adversarial methodology
 (APPROVE WITH FIXES, 5 bugs). All required fixes applied and verified:
 mock self-test ALL GREEN, full suite 100/100.
 
-## T0 zero-reference proposal
+## T0 zero-reference proposal — APPLIED 2026-10-01 (Sakura approved)
 
-Awaiting Sakura's concrete nod. Regenerated at
-`~/workspace/goals/llm-workflow-benchmark-pack/hidden_files/t0-proposal/`.
-Not applied; v1 classifications preserved.
+Gate v2 live: `t1_refs_valid` now FAILS on zero `file:line` refs (was a
+vacuous pass). 12-line patch in `judge/t0_checks.py`, 3 regression tests in
+`tests/test_t0_ref_requirement.py`, runbook updated, `t0_gate_version`
+stamped in open-loop run meta. Full suite 103/103 green, committed as
+`cb8ad88`. Past qwen/llama runs NOT reclassified (v1 artifacts); the
+vacuous-pass hole is banked as a leak finding in `docs/iteration-log.md`
+for later iterations.
 
 ## What remains [OPEN]
 
