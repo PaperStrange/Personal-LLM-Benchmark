@@ -1,0 +1,15 @@
+{
+  "steps": 7,
+  "malformed_lines": 0,
+  "distinct_pairs": 7,
+  "action_counts": {
+    "generate": 2,
+    "send_prompt": 2,
+    "plant_bugs": 1,
+    "run_abort": 1,
+    "write_file": 1
+  },
+  "entropy_bits": 2.807,
+  "max_consecutive_repeat": 1,
+  "flags": []
+}

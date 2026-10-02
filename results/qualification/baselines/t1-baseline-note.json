@@ -1,0 +1,7 @@
+{
+  "model": "qwen2.5-1.5b-local",
+  "wall_s": 329.8,
+  "t0_pass": true,
+  "deterministic_recall": "0/22",
+  "chars": 7879
+}

@@ -1,0 +1,2 @@
+{"step": 1, "role": "harness", "action": "plant_bugs", "target": "results/qualification/baselines/t2/tree", "outcome": "ok", "note": "seed=7 bugs=off_by_one_qty,swapped_tax_rates wall_s=0.0"}
+{"step": 2, "role": "baseline", "action": "turn", "target": "plan", "outcome": "ok", "note": "single context, chars=1841"}

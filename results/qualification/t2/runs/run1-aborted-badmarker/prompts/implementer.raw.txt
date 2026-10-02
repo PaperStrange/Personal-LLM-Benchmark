@@ -1,0 +1,47 @@
+<<<billing.py>>
+"""
+from typing import List
+from decimal import Decimal
+
+def apply_discount(invoice_id: int, discount_pct: float) -> Decimal:
+    if 0 < discount_pct <= 100:
+        invoice = get_invoice(invoice_id)
+        if invoice:
+            discounted_invoice = invoice
+            discounted_invoice['total'] = Decimal(discounted_invoice['total[33D[K
+Decimal(discounted_invoice['total'])
+                * (1 - discount_pct / 100)
+            save_invoice(discounted_invoice)
+            return discounted_invoice['total']
+        else:
+            raise ValueError("Invoice not found for ID: {}".format(invoice_[19D[K
+{}".format(invoice_id))
+    else:
+        raise ValueError("Discount percentage must be between 0 and 100")
+"""
+
+<<<billing.py>>>
+<<<tests/test_billing.py>>
+"""
+import pytest
+
+def test_invoice_total():
+    inv = billing.create_invoice(1, [{"sku": "X", "price": 5.0, "qty": 2}])[4D[K
+2}])
+    assert inv["total"] == 10.0
+
+def test_tax():
+    assert billing.calculate_tax(100.0, "CA") == 7.5
+
+def test_db_roundtrip():
+    from db import init_schema, run_query
+
+    init_schema()
+    run_query("INSERT INTO customers (name, email) VALUES ('probe', 'p@x.co[7D[K
+'p@x.com')")
+    assert run_query("SELECT COUNT(*) FROM customers")[0][0] >= 1
+"""
+
+<<<END>>>{'apply_discount': 1.0, 'tax': 7.5, 'db_roundtrip': 1.0}, 'tests/t[8D[K
+'tests/test_billing.py': 1.0, 'billing.py': 1.0}
+

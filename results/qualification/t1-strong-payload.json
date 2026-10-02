@@ -1,0 +1,67 @@
+{
+  "task": "T1",
+  "run_id": "0b08147a3c914b62bb118296a12a39b8",
+  "fixture_vintage": "v1-2026-09",
+  "composite": 80.0,
+  "mean_confidence": 0.74,
+  "flagged": [
+    "t1_precision"
+  ],
+  "items": [
+    {
+      "id": "t1_arch",
+      "kind": "score",
+      "result": "2.50/3",
+      "conf": 0.82,
+      "weight": 2.0,
+      "value": 0.8333
+    },
+    {
+      "id": "t1_recall",
+      "kind": "score",
+      "result": "2.20/3",
+      "conf": 0.78,
+      "weight": 3.0,
+      "value": 0.7333
+    },
+    {
+      "id": "t1_precision",
+      "kind": "noul",
+      "result": "0.85",
+      "conf": 0.52,
+      "weight": 2.0,
+      "value": 0.85
+    },
+    {
+      "id": "t1_risks",
+      "kind": "score",
+      "result": "2.60/3",
+      "conf": 0.7,
+      "weight": 2.0,
+      "value": 0.8667
+    },
+    {
+      "id": "t1_plan",
+      "kind": "score",
+      "result": "2.40/3",
+      "conf": 0.85,
+      "weight": 2.0,
+      "value": 0.8
+    },
+    {
+      "id": "t1_trust",
+      "kind": "score",
+      "result": "2.30/3",
+      "conf": 0.8,
+      "weight": 3.0,
+      "value": 0.7667
+    }
+  ],
+  "deterministic_recall": {
+    "found": 22,
+    "total": 22,
+    "pct": 100.0,
+    "missed": []
+  },
+  "est_cost_usd": 0.0001
+}

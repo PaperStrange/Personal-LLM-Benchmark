@@ -1,0 +1,90 @@
+{
+  "task": "T1",
+  "run_id": "999c79852e8a47f3a5dc3e4f11243835",
+  "fixture_vintage": "v1-2026-09",
+  "composite": 80.0,
+  "mean_confidence": 0.74,
+  "flagged": [
+    "t1_precision"
+  ],
+  "items": [
+    {
+      "id": "t1_arch",
+      "kind": "score",
+      "result": "2.50/3",
+      "conf": 0.82,
+      "weight": 2.0,
+      "value": 0.8333
+    },
+    {
+      "id": "t1_recall",
+      "kind": "score",
+      "result": "2.20/3",
+      "conf": 0.78,
+      "weight": 3.0,
+      "value": 0.7333
+    },
+    {
+      "id": "t1_precision",
+      "kind": "noul",
+      "result": "0.85",
+      "conf": 0.52,
+      "weight": 2.0,
+      "value": 0.85
+    },
+    {
+      "id": "t1_risks",
+      "kind": "score",
+      "result": "2.60/3",
+      "conf": 0.7,
+      "weight": 2.0,
+      "value": 0.8667
+    },
+    {
+      "id": "t1_plan",
+      "kind": "score",
+      "result": "2.40/3",
+      "conf": 0.85,
+      "weight": 2.0,
+      "value": 0.8
+    },
+    {
+      "id": "t1_trust",
+      "kind": "score",
+      "result": "2.30/3",
+      "conf": 0.8,
+      "weight": 3.0,
+      "value": 0.7667
+    }
+  ],
+  "deterministic_recall": {
+    "found": 0,
+    "total": 22,
+    "pct": 0.0,
+    "missed": [
+      "config.py:5",
+      "config.py:6",
+      "config.py:11",
+      "db.py:24",
+      "db.py:12",
+      "reports.py:9",
+      "reports.py:17",
+      "billing.py:1",
+      "reports.py:23",
+      "tests/test_billing.py:10",
+      "tests/test_billing.py:15",
+      "config.py:3",
+      "requirements.txt:2",
+      "config.py:13",
+      "billing.py:19",
+      "billing.py:94",
+      "db.py:49",
+      "db.py:58",
+      "config.py:18",
+      "config.py:20",
+      "reports.py:40",
+      "tests/test_billing.py:18"
+    ]
+  },
+  "est_cost_usd": 0.0002
+}

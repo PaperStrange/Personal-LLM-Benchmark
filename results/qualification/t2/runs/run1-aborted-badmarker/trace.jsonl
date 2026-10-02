@@ -1,0 +1,7 @@
+{"step": 1, "role": "harness", "action": "plant_bugs", "target": "results/qualification/t2/runs/run1/tree", "outcome": "ok", "note": "seed=7 bugs=off_by_one_qty,swapped_tax_rates wall_s=0.0"}
+{"step": 2, "role": "harness", "action": "send_prompt", "target": "planner/planner", "outcome": "ok", "note": "sha256=06e2d61c941a"}
+{"step": 3, "role": "planner", "action": "generate", "target": "planner", "outcome": "ok", "note": "wall_s=36.4 chars=1123"}
+{"step": 4, "role": "planner", "action": "write_file", "target": "PLAN.md", "outcome": "ok", "note": "chars=1058"}
+{"step": 5, "role": "harness", "action": "send_prompt", "target": "implementer/implementer", "outcome": "ok", "note": "sha256=eb67462755a0"}
+{"step": 6, "role": "implementer", "action": "generate", "target": "implementer", "outcome": "ok", "note": "wall_s=98.9 chars=1410"}
+{"step": 7, "role": "harness", "action": "run_abort", "target": null, "outcome": "error", "note": "[Errno 36] File name too long: 'results/qualification/t2/runs/run1/tree/billing.py>>\\n\"\"\"\\nfrom typing import List\\nfrom decimal import Decimal\\n\\ndef apply_discount(invoice_id: int, discount_pct: flo"}

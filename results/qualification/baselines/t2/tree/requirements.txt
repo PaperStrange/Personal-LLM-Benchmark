@@ -1,0 +1,4 @@
+# BillingSvc dependencies - pinned in 2021, never revisited
+flask==1.1.4
+requests==2.22.0
+gunicorn==19.9.0
