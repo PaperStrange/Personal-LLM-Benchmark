@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+*.egg-info/
+# Judges-only planted-bug manifests (Phase 3a) — never commit, never show
+# to candidates.
+tasks/t2-discount-fix/plant_manifest*.json
+results/qualification/**/plant_manifest.json
+# Fixture variants (Phase 4a) — generated per campaign, never committed.
+fixture/variants/
