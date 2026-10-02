@@ -1,0 +1,13 @@
+date,run_id,item_id,jev_norm,senior_norm,jev_choice,senior_choice,notes
+2026-09-22,dryrun-run1,t1_arch,0.83,0.80,,,honest senior re-grade of simulated review
+2026-09-22,dryrun-run1,t1_recall,0.73,0.85,,,deterministic recall was 12/14=0.857; prose also covered D4 siblings
+2026-09-22,dryrun-run1,t1_precision,0.85,0.88,,,one wrong line citation (reports.py:16 vs 17)
+2026-09-22,dryrun-run1,t1_risks,0.87,0.85,,,missed absolute-DB-path ops risk
+2026-09-22,dryrun-run1,t1_plan,0.80,0.80,,,-
+2026-09-22,dryrun-run1,t1_trust,0.77,0.75,,,explicit uncertainties noted; one wrong citation
+2026-09-22,dryrun-run1,t3_time,,,under_15_min,under_15_min,[SIM] illustrative categorical verdict pair for kappa computation; no live T3 calibration run exists yet (1/6)
+2026-09-22,dryrun-run1,t3_time,,,under_1_hour,under_1_hour,[SIM] illustrative categorical verdict pair for kappa computation; no live T3 calibration run exists yet (2/6)
+2026-09-22,dryrun-run1,t3_time,,,under_15_min,under_15_min,[SIM] illustrative categorical verdict pair for kappa computation; no live T3 calibration run exists yet (3/6)
+2026-09-22,dryrun-run1,t3_time,,,under_1_day,under_15_min,[SIM] illustrative categorical verdict pair for kappa computation; no live T3 calibration run exists yet (4/6)
+2026-09-22,dryrun-run1,t3_time,,,under_1_hour,under_15_min,[SIM] illustrative categorical verdict pair for kappa computation; no live T3 calibration run exists yet (5/6)
+2026-09-22,dryrun-run1,t3_time,,,under_1_day,under_1_day,[SIM] illustrative categorical verdict pair for kappa computation; no live T3 calibration run exists yet (6/6)
