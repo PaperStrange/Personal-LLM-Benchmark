@@ -1,4 +1,4 @@
-"""Regression test for judge/leakage_audit.py.
+"""Regression test for src/llm_workflow_eval/judge/leakage_audit.py.
 
 The hidden answer key must not be spelled out verbatim in the fixture:
 (a) the real inventory/fixture pair is clean, (b) a planted verbatim leak
@@ -11,7 +11,7 @@ import tempfile
 import unittest
 
 PACK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-AUDIT = os.path.join(PACK, "judge", "leakage_audit.py")
+AUDIT = os.path.join(PACK, "src", "llm_workflow_eval", "judge", "leakage_audit.py")
 
 
 class LeakageAuditTest(unittest.TestCase):

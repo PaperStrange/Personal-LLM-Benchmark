@@ -1,4 +1,4 @@
-"""Regression test for judge/calibration.py — the Jev-vs-senior
+"""Regression test for src/llm_workflow_eval/judge/calibration.py — the Jev-vs-senior
 agreement ritual.
 
 Exercises both the happy path (high agreement) and the RECALIBRATE flag
@@ -13,7 +13,7 @@ import tempfile
 import unittest
 
 PACK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CALIBRATION = os.path.join(PACK, "judge", "calibration.py")
+CALIBRATION = os.path.join(PACK, "src", "llm_workflow_eval", "judge", "calibration.py")
 
 HEADER = ["date", "run_id", "item_id", "jev_norm", "senior_norm",
           "jev_choice", "senior_choice", "notes"]

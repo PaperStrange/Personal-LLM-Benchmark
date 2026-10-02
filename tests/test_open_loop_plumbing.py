@@ -12,7 +12,7 @@ import unittest
 
 PACK = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SHIM_DIR = os.path.join(PACK, "tests", "helpers", "ollama_judge")
-DRIVER = os.path.join(PACK, "tools", "open-loop", "driver.py")
+DRIVER = os.path.join(PACK, "src", "llm_workflow_eval", "drivers", "open-loop", "driver.py")
 
 
 def load_module(name, path):

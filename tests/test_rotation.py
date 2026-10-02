@@ -7,7 +7,7 @@ Generates two vintages (seeds 7 and 8) in tmp and asserts:
       EACH variant pair, via the refactored tests/test_anchors.py logic;
   (c) canonical pair still passes (covered by test_anchors; asserted here
       too for the pair);
-  (d) judge/leakage_audit.py is ALL CLEAR on each variant pair;
+  (d) src/llm_workflow_eval/judge/leakage_audit.py is ALL CLEAR on each variant pair;
   (e) scorecard/aggregate output carries the stamped vintage, and mixed
       vintages are refused;
 plus guards: the generator refuses the canonical tree, leaves canonical
@@ -35,9 +35,9 @@ sys.path.insert(0, TESTS)
 import test_anchors
 
 ROTATE = os.path.join(PACK, "tasks", "t1-legacy-review", "rotate_fixture.py")
-AGGREGATE = os.path.join(PACK, "judge", "aggregate.py")
-JUDGE = os.path.join(PACK, "judge", "jev_judge.py")
-LEAKAGE = os.path.join(PACK, "judge", "leakage_audit.py")
+AGGREGATE = os.path.join(PACK, "src", "llm_workflow_eval", "judge", "aggregate.py")
+JUDGE = os.path.join(PACK, "src", "llm_workflow_eval", "judge", "jev_judge.py")
+LEAKAGE = os.path.join(PACK, "src", "llm_workflow_eval", "judge", "leakage_audit.py")
 MOCK_SDK = os.path.join(PACK, "tests", "helpers", "mock_typesafe")
 RUBRIC = os.path.join(PACK, "rubrics", "rubric-T1.json")
 CANON_CODE = os.path.join(PACK, "fixture", "legacy-billing")

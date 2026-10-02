@@ -1,4 +1,4 @@
-"""Regression tests for judge/t0_checks.py — the T0 deterministic gate.
+"""Regression tests for src/llm_workflow_eval/judge/t0_checks.py — the T0 deterministic gate.
 
 Runs the real script in subprocesses against synthetic candidates and
 workdirs, asserting exit codes and [PASS]/[FAIL] markers. The T1 good-path
@@ -12,7 +12,7 @@ import tempfile
 import unittest
 
 PACK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-T0 = os.path.join(PACK, "judge", "t0_checks.py")
+T0 = os.path.join(PACK, "src", "llm_workflow_eval", "judge", "t0_checks.py")
 FIXTURE = os.path.join(PACK, "fixture", "legacy-billing")
 INVENTORY = os.path.join(PACK, "fixture", "DEBT-INVENTORY.md")
 

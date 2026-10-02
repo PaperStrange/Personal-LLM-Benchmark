@@ -1,4 +1,4 @@
-"""Regression test for judge/jev_judge.py — the Jev scoring pipeline.
+"""Regression test for src/llm_workflow_eval/judge/jev_judge.py — the Jev scoring pipeline.
 
 Runs the real script against the canned mock typesafe_sdk (self-contained
 copy in tests/helpers/mock_typesafe): validates stdout shape, the
@@ -14,7 +14,7 @@ import tempfile
 import unittest
 
 PACK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-JUDGE = os.path.join(PACK, "judge", "jev_judge.py")
+JUDGE = os.path.join(PACK, "src", "llm_workflow_eval", "judge", "jev_judge.py")
 MOCK_SDK = os.path.join(PACK, "tests", "helpers", "mock_typesafe")
 RUBRIC = os.path.join(PACK, "rubrics", "rubric-T1.json")
 INVENTORY = os.path.join(PACK, "fixture", "DEBT-INVENTORY.md")
