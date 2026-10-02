@@ -1,0 +1,81 @@
+{
+  "outdir": "results/open-loop",
+  "attempts": 3,
+  "n_complete_runs": 3,
+  "incomplete_runs": [],
+  "model": "ollama/qwen2.5-1.5b-local [REAL local call]",
+  "judge": "ollama/qwen2.5-1.5b-local (open-source stand-in for the cheap-judge role; NOT Jev; SAME model as candidate -> not independent) [REAL local calls]",
+  "threshold": 60.0,
+  "t0_pass_complete_runs": "3/3",
+  "composites": [
+    63.6,
+    70.7,
+    70.7
+  ],
+  "composite_mean": 68.3,
+  "composite_population_std": 3.3,
+  "composite_min": 63.6,
+  "composite_max": 70.7,
+  "pass_at_k": 1,
+  "pass_cubed_k": 1,
+  "vintage": "v1-2026-09",
+  "per_item": {
+    "t1_arch": {
+      "mean": 0.67,
+      "min": 0.67,
+      "max": 0.67,
+      "n": 3
+    },
+    "t1_plan": {
+      "mean": 0.67,
+      "min": 0.67,
+      "max": 0.67,
+      "n": 3
+    },
+    "t1_precision": {
+      "mean": 0.95,
+      "min": 0.95,
+      "max": 0.95,
+      "n": 3
+    },
+    "t1_recall": {
+      "mean": 0.56,
+      "min": 0.33,
+      "max": 0.67,
+      "n": 3
+    },
+    "t1_risks": {
+      "mean": 0.67,
+      "min": 0.67,
+      "max": 0.67,
+      "n": 3
+    },
+    "t1_trust": {
+      "mean": 0.67,
+      "min": 0.67,
+      "max": 0.67,
+      "n": 3
+    }
+  },
+  "mean_confidence_per_run": [
+    0.91,
+    0.88,
+    0.88
+  ],
+  "deterministic_recall_per_run": [
+    {
+      "found": 0,
+      "total": 22
+    },
+    {
+      "found": 0,
+      "total": 22
+    },
+    {
+      "found": 0,
+      "total": 22
+    }
+  ],
+  "wall_time_s_complete_runs": 1510,
+  "note": "Judge is the same open-weight model as the candidate, so NOT independent and NOT Jev. Metrics characterize the stand-in judge, not credible candidate capability. pass@k/pass^k are computed over COMPLETE runs only (n_complete_runs); incomplete repeats are listed, never silently dropped. t0_pass_complete_runs and wall_time_s_complete_runs also cover complete runs only; the scorecard's t0_pass/wall_time_s sum ALL attempts."
+}

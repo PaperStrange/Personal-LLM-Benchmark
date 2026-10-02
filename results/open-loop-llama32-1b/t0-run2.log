@@ -1,0 +1,5 @@
+[INFO] inventory anchors cited: 0/22
+[PASS] candidate_file: exists, 1672 bytes
+[FAIL] t1_sections: missing sections: risk register, 30/60/90-day plan
+[PASS] t1_refs_valid: 0 file:line refs, all within file bounds
+T0 T1: GATE FAILED (2/3 checks)

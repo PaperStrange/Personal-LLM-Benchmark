@@ -1,0 +1,5 @@
+[INFO] inventory anchors cited: 0/22
+[PASS] candidate_file: exists, 5095 bytes
+[PASS] t1_sections: all four sections present (architecture, debt, risk, plan)
+[PASS] t1_refs_valid: 0 file:line refs, all within file bounds
+T0 T1: ALL CHECKS PASSED (3/3 checks)

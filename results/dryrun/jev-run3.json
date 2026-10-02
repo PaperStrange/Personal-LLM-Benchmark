@@ -1,0 +1,66 @@
+{
+  "task": "T1",
+  "composite": 84.0,
+  "mean_confidence": 0.77,
+  "flagged": [],
+  "items": [
+    {
+      "id": "t1_arch",
+      "kind": "score",
+      "result": "2.60/3",
+      "conf": 0.85,
+      "weight": 2.0,
+      "value": 0.8667
+    },
+    {
+      "id": "t1_recall",
+      "kind": "score",
+      "result": "2.40/3",
+      "conf": 0.8,
+      "weight": 3.0,
+      "value": 0.8
+    },
+    {
+      "id": "t1_precision",
+      "kind": "noul",
+      "result": "0.88",
+      "conf": 0.55,
+      "weight": 2.0,
+      "value": 0.88
+    },
+    {
+      "id": "t1_risks",
+      "kind": "score",
+      "result": "2.70/3",
+      "conf": 0.72,
+      "weight": 2.0,
+      "value": 0.9
+    },
+    {
+      "id": "t1_plan",
+      "kind": "score",
+      "result": "2.50/3",
+      "conf": 0.86,
+      "weight": 2.0,
+      "value": 0.8333
+    },
+    {
+      "id": "t1_trust",
+      "kind": "score",
+      "result": "2.40/3",
+      "conf": 0.83,
+      "weight": 3.0,
+      "value": 0.8
+    }
+  ],
+  "deterministic_recall": {
+    "found": 12,
+    "total": 14,
+    "pct": 85.7,
+    "missed": [
+      "reports.py:17",
+      "config.py:13"
+    ]
+  },
+  "est_cost_usd": 0.0001
+}

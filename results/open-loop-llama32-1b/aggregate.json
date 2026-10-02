@@ -1,0 +1,80 @@
+{
+  "outdir": "results/open-loop-llama32-1b",
+  "attempts": 3,
+  "n_complete_runs": 1,
+  "incomplete_runs": [
+    {
+      "run": 2,
+      "t0": "FAIL",
+      "note": "T0 gate failed, no judge spend"
+    },
+    {
+      "run": 3,
+      "t0": "PASS",
+      "note": "judge failed; raw emission was not retained (error logging was added to the driver after this run)"
+    }
+  ],
+  "model": "ollama/llama3.2-1b-local [REAL local call]",
+  "judge": "ollama/llama3.2-1b-local (open-weight stand-in for the cheap-judge role; NOT Jev; SAME model as candidate -> not independent) [REAL local calls]",
+  "threshold": 60.0,
+  "t0_pass_complete_runs": "1/1",
+  "composites": [
+    85.7
+  ],
+  "composite_mean": 85.7,
+  "composite_population_std": 0.0,
+  "composite_min": 85.7,
+  "composite_max": 85.7,
+  "pass_at_k": 1,
+  "pass_cubed_k": 1,
+  "vintage": "v1-2026-09",
+  "per_item": {
+    "t1_arch": {
+      "mean": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "n": 1
+    },
+    "t1_plan": {
+      "mean": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "n": 1
+    },
+    "t1_precision": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 1
+    },
+    "t1_recall": {
+      "mean": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "n": 1
+    },
+    "t1_risks": {
+      "mean": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "n": 1
+    },
+    "t1_trust": {
+      "mean": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "n": 1
+    }
+  },
+  "mean_confidence_per_run": [
+    0.83
+  ],
+  "deterministic_recall_per_run": [
+    {
+      "found": 0,
+      "total": 22
+    }
+  ],
+  "wall_time_s_complete_runs": 464,
+  "note": "Judge is the same open-weight model as the candidate, so NOT independent and NOT Jev. Metrics characterize the stand-in judge, not credible candidate capability. pass@k/pass^k are computed over COMPLETE runs only (n_complete_runs); incomplete repeats are listed, never silently dropped. t0_pass_complete_runs and wall_time_s_complete_runs also cover complete runs only; the scorecard's t0_pass/wall_time_s sum ALL attempts."
+}

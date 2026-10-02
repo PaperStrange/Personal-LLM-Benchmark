@@ -1,0 +1,90 @@
+{
+  "task": "T1",
+  "run_id": "1e06dab959cd445689e158dcb2687dbe",
+  "fixture_vintage": "v1-2026-09",
+  "composite": 70.7,
+  "mean_confidence": 0.88,
+  "flagged": [],
+  "items": [
+    {
+      "id": "t1_arch",
+      "kind": "score",
+      "result": "2.00/3",
+      "conf": 0.85,
+      "weight": 2.0,
+      "value": 0.6667
+    },
+    {
+      "id": "t1_recall",
+      "kind": "score",
+      "result": "2.00/3",
+      "conf": 0.85,
+      "weight": 3.0,
+      "value": 0.6667
+    },
+    {
+      "id": "t1_precision",
+      "kind": "noul",
+      "result": "0.95",
+      "conf": 0.95,
+      "weight": 2.0,
+      "value": 0.95
+    },
+    {
+      "id": "t1_risks",
+      "kind": "score",
+      "result": "2.00/3",
+      "conf": 0.85,
+      "weight": 2.0,
+      "value": 0.6667
+    },
+    {
+      "id": "t1_plan",
+      "kind": "score",
+      "result": "2.00/3",
+      "conf": 0.85,
+      "weight": 2.0,
+      "value": 0.6667
+    },
+    {
+      "id": "t1_trust",
+      "kind": "score",
+      "result": "2.00/3",
+      "conf": 0.95,
+      "weight": 3.0,
+      "value": 0.6667
+    }
+  ],
+  "deterministic_recall": {
+    "found": 0,
+    "total": 22,
+    "pct": 0.0,
+    "missed": [
+      "config.py:5",
+      "config.py:6",
+      "config.py:11",
+      "db.py:24",
+      "db.py:12",
+      "reports.py:9",
+      "reports.py:17",
+      "billing.py:1",
+      "reports.py:23",
+      "tests/test_billing.py:10",
+      "tests/test_billing.py:15",
+      "config.py:3",
+      "requirements.txt:2",
+      "config.py:13",
+      "billing.py:19",
+      "billing.py:94",
+      "db.py:49",
+      "db.py:58",
+      "config.py:18",
+      "config.py:20",
+      "reports.py:40",
+      "tests/test_billing.py:18"
+    ]
+  },
+  "judge": "ollama/qwen2.5-1.5b-local (open-weight stand-in for the cheap-judge role; NOT Jev; same model as the candidate, so not independent)",
+  "est_cost_usd_notional": 0.0001,
+  "cost_note": "Notional only: computed from Jev pricing constants, which do not apply to a local stand-in. Actual API spend was $0."
+}

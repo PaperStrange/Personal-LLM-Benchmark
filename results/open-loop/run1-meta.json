@@ -1,0 +1,19 @@
+{
+  "run": 1,
+  "started": "2026-09-30T11:02:22",
+  "candidate": "ollama/qwen2.5-1.5b-local [REAL local call]",
+  "judge": "ollama/qwen2.5-1.5b-local (open-source stand-in for the cheap-judge role; NOT Jev; SAME model as candidate -> not independent) [REAL local calls]",
+  "fixture": "fixture/legacy-billing (verbatim T1 prompt + inlined fixture contents; prompt text unmodified)",
+  "t0": "PASS",
+  "finished": "2026-09-30T11:09:47",
+  "judge_payload": "judge-run1.json",
+  "model_provenance": {
+    "tag": "qwen2.5-1.5b-local",
+    "gguf_source_url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    "quantization": "Q4_K_M",
+    "gguf_sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+    "gguf_bytes": 1117320736,
+    "import": "ollama create qwen2.5-1.5b-local -f Modelfile (Modelfile: FROM <gguf path>)",
+    "license": "Apache-2.0 [SECONDARY]"
+  }
+}
