@@ -1,0 +1,6 @@
+{"step": 1, "role": "harness", "action": "plant_bugs", "target": "results/qualification/t2/runs/run1/tree", "outcome": "ok", "note": "seed=7 bugs=off_by_one_qty,swapped_tax_rates wall_s=0.0"}
+{"step": 2, "role": "harness", "action": "send_prompt", "target": "planner/planner", "outcome": "ok", "note": "sha256=06e2d61c941a"}
+{"step": 3, "role": "planner", "action": "generate", "target": "planner", "outcome": "ok", "note": "wall_s=22.5 chars=807"}
+{"step": 4, "role": "planner", "action": "write_file", "target": "PLAN.md", "outcome": "ok", "note": "chars=780"}
+{"step": 5, "role": "harness", "action": "send_prompt", "target": "implementer/implementer", "outcome": "ok", "note": "sha256=c52086aa024b"}
+{"step": 6, "role": "harness", "action": "run_abort", "target": null, "outcome": "error", "note": "Command '['/home/hatch/workspace/.local/ollama-pkg/bin/ollama', 'run', 'qwen2.5-1.5b-local']' timed out after 900 seconds"}

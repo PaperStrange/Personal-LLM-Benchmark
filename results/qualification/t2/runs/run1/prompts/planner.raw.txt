@@ -1,0 +1,24 @@
+```python
+def apply_discount(invoice_id, pct):
+    """STUB for the T2 multi-agent task: implement a percent discount.
+
+    Intended behavior: validate 0 < pct <= 100, recompute the invoice total[5D[K
+total,
+    persist the change, and return the new total. Raise ValueError on bad i[1D[K
+input.
+    """
+    if not (0 < pct <= 100):
+        raise ValueError("Discount percentage must be between 0 and 100.")
+    
+    invoice = get_invoice(invoice_id)
+    if invoice is None:
+        raise ValueError("Invoice ID not found.")
+    
+    new_total = invoice["total"] - (invoice["total"] * (pct / 100))
+    save_invoice({"id": invoice_id, "customer_id": invoice["customer_id"], [K
+"subtotal": invoice["subtotal"], "tax": invoice["tax"], "total": new_total}[10D[K
+new_total})
+    
+    return new_total
+```
+

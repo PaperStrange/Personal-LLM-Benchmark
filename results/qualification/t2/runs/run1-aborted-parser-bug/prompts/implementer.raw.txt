@@ -1,0 +1,68 @@
+<<<billing.py>>>
+```python
+from config import DEBUG, SECRET_KEY, API_TOKEN, SMTP_HOST, SMTP_PORT, SMTP[4D[K
+SMTP_USER, SMTP_PASS, TAX_RATES
+
+def apply_discount(invoice_id, pct):
+    if 0 < pct <= 100:
+        subtotal = invoice['subtotal']
+        tax = calculate_tax(subtotal, "CA")
+        total = subtotal + tax
+        new_invoice = {'invoice_id': invoice_id, 'subtotal': subtotal, 'tax[4D[K
+'tax': tax, 'total': total}
+        return new_invoice
+    else:
+        raise ValueError("Discount percentage must be between 0 and 100")
+```
+<<<END>>>
+
+<<<config.py>>>
+```python
+DEBUG = False
+SECRET_KEY = "dev-secret-key-do-not-use"
+API_TOKEN = "sk-live-9f2c4a1b7e"
+
+SMTP_HOST = "smtp.internal.example.com"
+SMTP_PORT = 587
+SMTP_USER = "billing@example.com"
+SMTP_PASS = "s3cr3t-mail-pw"
+
+DB_PATH = "/var/lib/billingsvc/billing.db"
+
+TAX_RATES = {"CA": 0.0625, "NY": 0.08, "TX": 0.0725}
+
+
+ALLOWED_HOSTS = ["*"]
+
+SESSION_COOKIE_SECURE = False
+```
+<<<END>>>
+
+<<<db.py>>>
+```python
+from config import DB_PATH
+
+def get_conn():
+    return sqlite3.connect(DB_PATH)
+```
+<<<END>>>
+
+<<<reports.py>>>
+```python
+from db import get_conn
+
+def generate_report(invoice_id):
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM invoices WHERE id = " + str(invoice_id))
+    rows = cur.fetchall()
+    return rows
+```
+<<<END>>>
+
+<<<requirements.txt>>>
+```plaintext
+# No changes needed
+```
+<<<END>>/>
+

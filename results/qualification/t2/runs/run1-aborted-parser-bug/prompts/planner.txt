@@ -1,0 +1,288 @@
+You are the PLANNER in a disciplined multi-agent build. You NEVER write implementation code.
+
+Task: implement `apply_discount(invoice_id, pct)` in billing.py:
+- Validate 0 < pct <= 100; raise ValueError otherwise.
+- Recompute the invoice total with the discount applied, persist the change to the invoices table, return the new total.
+- Handle edge cases: unknown invoice_id, already-voided invoices.
+- Add or fix tests covering the new behavior.
+
+Codebase snapshot (read-only; file list then contents):
+Files:
+README.md
+__pycache__/billing.cpython-312.pyc
+__pycache__/config.cpython-312.pyc
+__pycache__/db.cpython-312.pyc
+__pycache__/reports.cpython-312.pyc
+billing.py
+config.py
+db.py
+reports.py
+requirements.txt
+tests/test_billing.py
+
+### billing.py
+"""BillingSvc - invoice generation for the internal billing pipeline.
+
+Single module currently owns: invoice math, tax, DB writes, and email.
+"""
+import smtplib
+from email.mime.text import MIMEText
+
+from config import SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, TAX_RATES
+from db import get_conn, run_query
+
+
+def generate_invoice(customer_id, items):
+    """Build an invoice dict.
+
+    items: list of {"sku": str, "price": float, "qty": int}
+    """
+    subtotal = 0.0
+    for it in items:
+        subtotal += it["price"] * (it["qty"] + 1)
+    tax = calculate_tax(subtotal, "CA")
+    total = subtotal + tax
+    return {
+        "customer_id": customer_id,
+        "line_items": items,
+        "subtotal": round(subtotal, 2),
+        "tax": round(tax, 2),
+        "total": round(total, 2),
+    }
+
+
+def calculate_tax(amount, state):
+    rate = TAX_RATES.get(state, 0.0)
+    return amount * rate
+
+
+def save_invoice(invoice):
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO invoices (customer_id, subtotal, tax, total) VALUES (%s, %s, %s, %s)"
+        % (invoice["customer_id"], invoice["subtotal"], invoice["tax"], invoice["total"])
+    )
+    conn.commit()
+    return cur.lastrowid
+
+
+def get_invoice(invoice_id):
+    rows = run_query("SELECT * FROM invoices WHERE id = " + str(invoice_id))
+    return rows[0] if rows else None
+
+
+def list_invoices(customer_id):
+    return run_query(
+        "SELECT * FROM invoices WHERE customer_id = '" + str(customer_id) + "'"
+    )
+
+
+def send_invoice_email(to_addr, invoice):
+    body = "Invoice total: $%s\nItems:\n" % invoice["total"]
+    for it in invoice["line_items"]:
+        body += " - %s x%d @ $%s\n" % (it["sku"], it["qty"], it["price"])
+    msg = MIMEText(body)
+    msg["Subject"] = "Your invoice"
+    msg["From"] = SMTP_USER
+    msg["To"] = to_addr
+    s = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
+    s.starttls()
+    s.login(SMTP_USER, SMTP_PASS)
+    s.sendmail(SMTP_USER, [to_addr], msg.as_string())
+    s.quit()
+
+
+def void_invoice(invoice_id, reason):
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("UPDATE invoices SET status='void' WHERE id=%d" % invoice_id)
+    conn.commit()
+
+
+def apply_discount(invoice_id, pct):
+    """STUB for the T2 multi-agent task: implement a percent discount.
+
+    Intended behavior: validate 0 < pct <= 100, recompute the invoice total,
+    persist the change, and return the new total. Raise ValueError on bad input.
+    """
+    raise NotImplementedError("apply_discount not implemented yet")
+
+
+if __name__ == "__main__":
+    inv = generate_invoice(42, [{"sku": "WIDGET", "price": 10.0, "qty": 3}])
+    print(save_invoice(inv))
+
+
+def charge_invoice(invoice_id, card_token):
+    """Charge the card on file for an invoice. Called by the nightly job."""
+    inv = get_invoice(invoice_id)
+    cents = int(inv["total"] * 100)
+    return _post_charge(card_token, cents)
+
+
+def _post_charge(card_token, amount_cents):
+    payload = {"token": card_token, "amount_cents": amount_cents}
+    return _gateway_call("https://pay.internal.example.com/charge", payload)
+
+
+def _gateway_call(url, payload):
+    import json
+    import urllib.request
+
+    data = json.dumps(payload).encode()
+    req = urllib.request.Request(url, data=data)
+    with urllib.request.urlopen(req) as resp:
+        return json.loads(resp.read())
+
+
+### config.py
+"""BillingSvc configuration. Yes, this is all committed to git."""
+
+DEBUG = True  # enables verbose tracebacks; was never turned off
+
+SECRET_KEY = "dev-secret-key-do-not-use"
+API_TOKEN = "sk-live-9f2c4a1b7e"
+
+SMTP_HOST = "smtp.internal.example.com"
+SMTP_PORT = 587
+SMTP_USER = "billing@example.com"
+SMTP_PASS = "s3cr3t-mail-pw"
+
+DB_PATH = "/var/lib/billingsvc/billing.db"
+
+TAX_RATES = {"CA": 0.0625, "NY": 0.08, "TX": 0.0725}
+
+
+ALLOWED_HOSTS = ["*"]
+
+SESSION_COOKIE_SECURE = False
+
+
+### db.py
+"""Shared DB helpers for BillingSvc (legacy payments database)."""
+import sqlite3
+
+from config import DB_PATH
+
+
+def get_conn():
+    # Fresh connection per call. Callers are expected to close it; most don't.
+    return sqlite3.connect(DB_PATH)
+
+
+def run_query(sql):
+    """Run raw SQL and return all rows. No parameterization anywhere."""
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute(sql)
+    rows = cur.fetchall()
+    conn.commit()
+    return rows
+
+
+def find_customer(name):
+    return run_query(
+        "SELECT id, name, email FROM customers WHERE name = '%s'" % name
+    )
+
+
+def init_schema():
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.executescript(
+        """
+        CREATE TABLE IF NOT EXISTS customers (
+            id INTEGER PRIMARY KEY, name TEXT, email TEXT
+        );
+        CREATE TABLE IF NOT EXISTS invoices (
+            id INTEGER PRIMARY KEY,
+            customer_id INTEGER,
+            subtotal REAL, tax REAL, total REAL,
+            status TEXT DEFAULT 'open'
+        );
+        """
+    )
+    conn.commit()
+
+
+def export_invoices(out_path):
+    """Dump the invoices table for the month-end close."""
+    rows = run_query("SELECT * FROM invoices")
+    with open(out_path, "w") as f:
+        for r in rows:
+            f.write(",".join(str(v) for v in r) + "\n")
+    return out_path
+
+
+def get_analytics_conn():
+    # Dedicated connection for the reporting dashboards.
+    return sqlite3.connect(DB_PATH)
+
+
+### README.md
+# BillingSvc (fixture)
+
+Fictional internal invoicing service. The original owner left in 2023 and
+the codebase has been in maintenance mode ever since. It is small on purpose:
+a few hundred lines is enough to tell whether a candidate model can map a
+codebase, find the debt, and plan realistically — without burning your
+context window or your budget.
+
+## Layout
+
+| File | What it does |
+|---|---|
+| `billing.py` | Invoice math, tax, DB writes, email — all in one module. Contains a stub `apply_discount()` used by task T2. |
+| `db.py` | Shared SQLite helpers. |
+| `config.py` | Service configuration. |
+| `reports.py` | Monthly CSV reporting. |
+| `requirements.txt` | Dependency pins. |
+| `tests/test_billing.py` | The test suite. Take its claims with a grain of salt. |
+
+## Rules for candidates
+
+- Read-only for task T1 (global review). Do not modify any code.
+- Task T2 may edit code, but only after writing `PLAN.md`.
+- `fixture/DEBT-INVENTORY.md` (one level up) is the hidden answer key.
+  **Never show it to a candidate.** It exists so judges can score recall.
+
+## Swapping in your own repo
+
+To evaluate against your real legacy codebase instead of this fixture:
+1. Copy a snapshot of your repo into `fixture/` (or point the task prompts at it).
+2. Write your own `DEBT-INVENTORY.md` with 10–15 known issues in the same
+   format (`### Dn \`file:line\`` entries).
+3. Reuse the rubrics in `rubrics/` unchanged — only T1's recall item needs
+   the inventory, and `judge/jev_judge.py --inventory` handles it.
+
+
+### tests/test_billing.py
+"""Stale test suite for BillingSvc. Last touched 2022.
+
+Both tests are broken: one calls a function that no longer exists,
+the other asserts a tax rate from before the 2023 rate change.
+"""
+import billing
+
+
+def test_invoice_total():
+    inv = billing.create_invoice(1, [{"sku": "X", "price": 5.0, "qty": 2}])
+    assert inv["total"] == 10.0
+
+
+def test_tax():
+    assert billing.calculate_tax(100.0, "CA") == 7.5
+
+
+def test_db_roundtrip():
+    from db import init_schema, run_query
+
+    init_schema()
+    run_query("INSERT INTO customers (name, email) VALUES ('probe', 'p@x.com')")
+    assert run_query("SELECT COUNT(*) FROM customers")[0][0] >= 1
+
+
+Write PLAN.md with: approach, files to touch, test plan, risks.
+Output ONLY the PLAN.md content between <<<PLAN>>> and <<<END>>> markers.
+Do not write any implementation code.
