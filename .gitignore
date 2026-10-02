@@ -9,3 +9,5 @@ tasks/t2-discount-fix/plant_manifest*.json
 results/qualification/**/plant_manifest.json
 # Fixture variants (Phase 4a) — generated per campaign, never committed.
 fixture/variants/
+dist/
+build/

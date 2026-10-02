@@ -31,4 +31,4 @@ To evaluate against your real legacy codebase instead of this fixture:
 2. Write your own `DEBT-INVENTORY.md` with 10–15 known issues in the same
    format (`### Dn \`file:line\`` entries).
 3. Reuse the rubrics in `rubrics/` unchanged — only T1's recall item needs
-   the inventory, and `judge/jev_judge.py --inventory` handles it.
+   the inventory, and `src/llm_workflow_eval/judge/jev_judge.py --inventory` handles it.

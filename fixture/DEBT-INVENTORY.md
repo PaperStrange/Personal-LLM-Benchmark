@@ -1,7 +1,7 @@
 # DEBT-INVENTORY.md — HIDDEN ANSWER KEY
 
 > **DO NOT show this file to any candidate model or agent. For judges only.**
-> Used by `judge/jev_judge.py --inventory` to score T1 debt recall deterministically.
+> Used by `src/llm_workflow_eval/judge/jev_judge.py --inventory` to score T1 debt recall deterministically.
 > Format: each `### Dn` entry anchors on `file:line` so the judge can regex-match
 > candidate citations. Keep the anchor on the most representative line.
 > The `Expect:` line under each header is a short substring of the true
