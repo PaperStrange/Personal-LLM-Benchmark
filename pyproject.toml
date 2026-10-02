@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-workflow-eval"
+version = "0.1.0"
+description = "A 3-task workflow benchmark pack for LLM models and agent harnesses"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Personal LLM Benchmark contributors" }]
+keywords = ["llm", "benchmark", "evaluation", "agent-harness"]
+urls = { Homepage = "https://github.com/PaperStrange/Personal-LLM-Benchmark" }
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["src"]
