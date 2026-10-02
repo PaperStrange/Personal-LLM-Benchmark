@@ -5,7 +5,7 @@ Operational use: each T2 multi-agent run gets a fresh fixture copy with 2
 seeded subtle bugs, so rubric-T2.json's coordination items (t2_coord_1,
 t2_coord_2) can grade whether the reviewer's REVIEW.md actually caught them.
 This is the MARBLE-style coordination-quality upgrade described in
-research/LLM-BENCHMARK-LANDSCAPE.md item 19: grade coordination, not just
+docs/landscape.md item 19: grade coordination, not just
 artifacts.
 
 SAFETY: this script copies src -> dest itself and never modifies the source

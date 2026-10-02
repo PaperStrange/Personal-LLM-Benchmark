@@ -1,4 +1,4 @@
-"""Regression test for judge/aggregate.py — pass@k / pass^k reporting.
+"""Regression test for src/llm_workflow_eval/judge/aggregate.py — pass@k / pass^k reporting.
 
 Builds three --json-out payloads (composites 72.5 / 58.0 / 65.0, threshold
 60) so exactly one run is below bar: expects pass@k=1 ("capable") but
@@ -13,7 +13,7 @@ import tempfile
 import unittest
 
 PACK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-AGGREGATE = os.path.join(PACK, "judge", "aggregate.py")
+AGGREGATE = os.path.join(PACK, "src", "llm_workflow_eval", "judge", "aggregate.py")
 
 
 def make_run(composite, value, run_id=None):

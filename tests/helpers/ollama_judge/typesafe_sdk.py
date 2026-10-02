@@ -17,7 +17,7 @@ Usage:
     # import or pull a local model, e.g.
     # ollama create qwen2.5-1.5b-local -f Modelfile   # once
     PYTHONPATH=tests/helpers/ollama_judge TYPESAFE_API_KEY=shim \
-        python3 judge/jev_judge.py --rubric rubrics/rubric-T1.json \
+        python3 src/llm_workflow_eval/judge/jev_judge.py --rubric rubrics/rubric-T1.json \
         --candidate <cand> --inventory <inv> --json-out <out>
 
 Env:

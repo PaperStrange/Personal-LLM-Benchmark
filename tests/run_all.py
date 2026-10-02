@@ -24,7 +24,7 @@ import unittest
 PACK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TESTS = os.path.dirname(os.path.abspath(__file__))
 RESULTS = os.path.join(PACK, "results")
-sys.path.insert(0, PACK)  # so `from judge.t0_checks import ...` works
+sys.path.insert(0, os.path.join(PACK, "src"))  # so `from llm_workflow_eval.judge...` works
 
 
 # ---------------------------------------------------------------- suite run
@@ -105,7 +105,7 @@ def probe_anchors():
 
 
 def probe_t0_counts():
-    from judge.t0_checks import (check_candidate_file, t1_checks, t2_checks,
+    from llm_workflow_eval.judge.t0_checks import (check_candidate_file, t1_checks, t2_checks,
                                  t3_checks)
     counts = {}
     with tempfile.TemporaryDirectory() as tmp:
@@ -134,7 +134,7 @@ def probe_pipeline():
         _write(cand, PIPELINE_CANDIDATE)
         out = os.path.join(tmp, "out.json")
         p = subprocess.run(
-            [sys.executable, os.path.join(PACK, "judge", "jev_judge.py"),
+            [sys.executable, os.path.join(PACK, "src", "llm_workflow_eval", "judge", "jev_judge.py"),
              "--rubric", os.path.join(PACK, "rubrics", "rubric-T1.json"),
              "--candidate", cand, "--inventory", INVENTORY,
              "--json-out", out],
@@ -158,7 +158,7 @@ def probe_aggregate():
                            "items": [{"id": "t1_arch", "value": 0.75}]}, f)
             paths.append(pth)
         p = subprocess.run(
-            [sys.executable, os.path.join(PACK, "judge", "aggregate.py"),
+            [sys.executable, os.path.join(PACK, "src", "llm_workflow_eval", "judge", "aggregate.py"),
              *paths, "--threshold", "60"],
             capture_output=True, text=True, cwd=PACK)
         if p.returncode != 0:
@@ -182,7 +182,7 @@ def probe_calibration():
                 ["2026-09-22", "r1", "t1_trust", 0.77, 0.75, ""],
             ])
         p = subprocess.run(
-            [sys.executable, os.path.join(PACK, "judge", "calibration.py"),
+            [sys.executable, os.path.join(PACK, "src", "llm_workflow_eval", "judge", "calibration.py"),
              csv_path],
             capture_output=True, text=True, cwd=PACK)
         if p.returncode != 0:

@@ -3,7 +3,7 @@
 One JSON object per line, UTF-8, describing a single agent action during a
 T2 multi-agent run. Produced by the harness wrapper (or a manual scribe for
 now — no harness emits these yet, [OPEN]); consumed by
-`judge/trace_check.py`, which flags looping / thrashing as a discipline
+`src/llm_workflow_eval/judge/trace_check.py`, which flags looping / thrashing as a discipline
 signal on top of the artifact grading in `rubrics/rubric-T2.json`.
 
 ## Fields
@@ -33,10 +33,10 @@ count as two different pairs.
 
 ## What the checker does with it
 
-`judge/trace_check.py` reports the `(action, target)` distribution and a
+`src/llm_workflow_eval/judge/trace_check.py` reports the `(action, target)` distribution and a
 plain Shannon entropy (bits) as a diagnostic, then flags two plain-language
 patterns — no named metrics, per the literature guidance in
-`research/LLM-BENCHMARK-LANDSCAPE.md` (item 16: concrete metric names in this
+`docs/landscape.md` (item 16: concrete metric names in this
 space lack a citable source, so the pack does not invent one):
 
 - **looping** — the same `(action, target)` repeated ≥ N consecutive steps
