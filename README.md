@@ -65,6 +65,7 @@ docs/      methodology and runbooks
 tests/     the pack's own regression suite ("eval the evals")
 results/   curated qualification evidence
 examples/  runnable examples
+dashboard/  admin dashboard (ngx-admin: overview, gates, results pages)
 ```
 
 ## Citation
