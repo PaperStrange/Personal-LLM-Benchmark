@@ -1,0 +1,38 @@
+```python
+# billing.py
+
+def apply_discount(invoice_id, pct):
+    """STUB for the T2 multi-agent task: implement a percent discount.
+
+    Intended behavior: validate 0 < pct <= 100, recompute the invoice total[5D[K
+total,
+    persist the change, and return the new total. Raise ValueError on bad i[1D[K
+input.
+
+    :param invoice_id: ID of the invoice to modify
+    :param pct: Discount percentage (as a float between 0 and 100)
+    :return: New total of the invoice after discount
+    """
+    assert 0 < pct <= 100, "Discount percentage must be between 0 and 100"
+    old_invoice = get_invoice(invoice_id)
+    new_total = old_invoice["total"] * (1 - pct / 100)
+    save_invoice({"id": invoice_id, "total": round(new_total, 2)})
+    return round(new_total, 2)
+
+
+# tests/test_billing.py
+
+def test_apply_discount():
+    invoice = {
+        "customer_id": 1,
+        "line_items": [
+            {"sku": "WIDGET", "price": 10.0, "qty": 3}
+        ],
+        "subtotal": 30.0,
+        "tax": 3.0,
+        "total": 33.0
+    }
+    new_total = 33.0 * (1 - 0.1 / 100)  # Apply 10% discount
+    assert apply_discount(1, 10) == round(new_total, 2)
+```
+

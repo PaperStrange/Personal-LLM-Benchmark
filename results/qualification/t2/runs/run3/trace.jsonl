@@ -1,0 +1,8 @@
+{"step": 1, "role": "harness", "action": "plant_bugs", "target": "results/qualification/t2/runs/run3/tree", "outcome": "ok", "note": "seed=7 bugs=off_by_one_qty,swapped_tax_rates wall_s=0.0"}
+{"step": 2, "role": "harness", "action": "send_prompt", "target": "planner/planner", "outcome": "ok", "note": "sha256=06e2d61c941a"}
+{"step": 3, "role": "planner", "action": "generate", "target": "planner", "outcome": "ok", "note": "wall_s=17.3 chars=861"}
+{"step": 4, "role": "planner", "action": "write_file", "target": "PLAN.md", "outcome": "ok", "note": "chars=838"}
+{"step": 5, "role": "harness", "action": "send_prompt", "target": "implementer/implementer", "outcome": "ok", "note": "sha256=df4482652eb1"}
+{"step": 6, "role": "implementer", "action": "generate", "target": "implementer", "outcome": "ok", "note": "wall_s=89.6 chars=1145"}
+{"step": 7, "role": "implementer", "action": "emit_files", "target": null, "outcome": "error", "note": "no <<<FILE>>> blocks found"}
+{"step": 8, "role": "harness", "action": "run_abort", "target": null, "outcome": "error", "note": "implementer emitted no file blocks"}

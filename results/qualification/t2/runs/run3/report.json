@@ -1,0 +1,7 @@
+{
+  "seed": 7,
+  "model": "qwen2.5-1.5b-local",
+  "status": "ABORTED",
+  "error": "implementer emitted no file blocks",
+  "leak_scan": []
+}

@@ -1,0 +1,9 @@
+<<<PLAN>>
+- Files to touch: billing.py, config.py, db.py
+- Approach: implement `apply_discount(invoice_id, pct)` as a multi-agent ta[2D[K
+task.
+- Test plan: write tests to cover the new behavior, add or fix tests to cov[3D[K
+cover the existing ones.
+- Risks: ensure that the implementation is correct, handle edge cases, and [K
+avoid breaking existing functionality.
+<<<END>>?>

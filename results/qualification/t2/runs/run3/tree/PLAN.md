@@ -1,0 +1,22 @@
+<<<PLAN>>
+```markdown
+Approach: Business logic (apply_discount()) should be implemented
+Files to touch:
+- billing.py: implement apply_discount()
+
+Test plan: Ensure coverage of invoice total, tax calculation, and DB write
+Risks:
+- Potential performance issues if not optimized for DB writes
+- Need to test edge cases like unknown invoice_id or voided invoices
+```
+<<<END>>>/n
+This plan outlines the steps needed to implement the `apply_discount` funct
+function in `billing.py`:
+1. Validate the input percentage and raise an error if it's invalid.
+2. Recompute the total with the applied discount.
+3. Persist the change to the invoices table.
+4. Write test cases to cover the new behavior, ensuring edge cases are test
+tested.
+
+The risks identified include potential performance issues with DB writes an
+and the need to test for edge cases.

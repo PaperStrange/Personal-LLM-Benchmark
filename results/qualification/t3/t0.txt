@@ -1,0 +1,5 @@
+[PASS] candidate_file: exists, 3370 bytes
+[PASS] t3_plugin_named: names a plugin/skill/MCP and a repo host (https://github.com/modelcontextprotocol/)
+[PASS] t3_time_to_working: states time-to-working
+[PASS] t3_outcome: states an outcome
+T0 T3: ALL CHECKS PASSED (4/4 checks)
