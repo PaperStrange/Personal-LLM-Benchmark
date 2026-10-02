@@ -2,7 +2,7 @@
 
 **Status: PROPOSED — approval pending Sakura's nod.** No Gate 3 candidate
 run may install anything not on this list. The rehearsal
-(`tools/qualification/gate3_rehearsal.py`) exercises the sandbox procedure
+(`src/llm_workflow_eval/drivers/qualification/gate3_rehearsal.py`) exercises the sandbox procedure
 with entry 1; the policy decision (is this the right extension for the real
 Gate 3) remains Sakura's.
 

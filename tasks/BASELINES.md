@@ -84,4 +84,4 @@ Rules this imposes on our pack:
    rubric changes — drift in anchor scores means the judge moved, not the
    candidates.
 
-Full citations: `research/LLM-BENCHMARK-LANDSCAPE.md`, items A5, D20, D22.
+Full citations: `docs/landscape.md`, items A5, D20, D22.
