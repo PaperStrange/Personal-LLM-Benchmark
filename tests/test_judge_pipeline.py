@@ -27,8 +27,9 @@ db.py:12 leaks connections. reports.py:9 duplicates tax logic.
 The architecture is a god module in billing.py.
 """
 
-REQUIRED_JSON_KEYS = {"task", "composite", "mean_confidence", "flagged",
-                      "items", "deterministic_recall", "est_cost_usd",
+REQUIRED_JSON_KEYS = {"task", "model", "candidate", "composite",
+                      "mean_confidence", "flagged", "items",
+                      "deterministic_recall", "est_cost_usd",
                       "fixture_vintage"}
 REQUIRED_ITEM_KEYS = {"id", "kind", "result", "conf", "weight", "value"}
 
@@ -121,6 +122,33 @@ class JudgePipelineTest(unittest.TestCase):
                                 % (REQUIRED_ITEM_KEYS - set(it)))
                 self.assertIsNotNone(it["id"])
                 self.assertIn(it["kind"], {"score", "choice", "noul"})
+
+    def test_model_candidate_stamp(self):
+        # A-1: --model and the --candidate file path must be stamped into
+        # every --json-out payload; omitting --model stamps null (backward
+        # compatible with invocations that predate the flag).
+        with tempfile.TemporaryDirectory() as tmp:
+            cand = os.path.join(tmp, "cand.md")
+            with open(cand, "w", encoding="utf-8") as f:
+                f.write(CANDIDATE)
+            out = os.path.join(tmp, "out.json")
+            p = run_judge(cand, out, extra_args=["--model", "gpt-6-luna"])
+            self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
+            with open(out, encoding="utf-8") as f:
+                data = json.load(f)
+        self.assertEqual(data["model"], "gpt-6-luna")
+        self.assertEqual(data["candidate"], cand)
+        with tempfile.TemporaryDirectory() as tmp:
+            cand = os.path.join(tmp, "cand.md")
+            with open(cand, "w", encoding="utf-8") as f:
+                f.write(CANDIDATE)
+            out = os.path.join(tmp, "out.json")
+            p = run_judge(cand, out)
+            self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
+            with open(out, encoding="utf-8") as f:
+                data = json.load(f)
+        self.assertIsNone(data["model"])
+        self.assertEqual(data["candidate"], cand)
 
     def test_deterministic_recall_hook(self):
         with tempfile.TemporaryDirectory() as tmp:

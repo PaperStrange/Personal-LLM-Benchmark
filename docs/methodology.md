@@ -1,6 +1,6 @@
 # Methodology (full)
 
-> Compressed summary in the [README](../README.md). Research survey: [landscape.md](landscape.md). Runbook: [runbook.md](runbook.md).
+> Compressed summary in the [README](../README.md). Research survey: [landscape.md](knowledge/landscape.md). Runbook: [runbook.md](runbook.md).
 
 ## Methodology
 
@@ -51,7 +51,7 @@ evaluator before grading any candidate.
 
 Each choice below is a defense against a documented failure mode in the
 benchmark literature. Full survey with citations:
-`docs/landscape.md`.
+`docs/knowledge/landscape.md`.
 
 - **Synthetic, private fixture.** Public code benchmarks rot: OpenAI
   withdrew from SWE-bench Verified, citing contamination and
@@ -132,6 +132,34 @@ benchmark literature. Full survey with citations:
 - Full pack × 3 repeats × 5 candidates ≈ **$1–2 total**, most of it the
   candidate runs. Screening on Luna instead of a flagship is a ~20–100× saving.
 
+**Hard campaign cap: $25.** Standing decision (Sakura, 2026-10-03). The cap is
+a guardrail, not a metric: the campaign stops when cumulative spend across
+all candidate runs + judge calls + senior grading reaches $25. A cap abort is
+[INFRA] — it says the run plan was too expensive, never that a model failed.
+Aborted campaigns are reported with the partial results and the cap hit, not
+silently dropped. See runbook "Campaign reporting rules" for the abort
+procedure.
+
+**Scorecard column semantics** (`results/scorecard.csv`, one row per
+(harness, model, task) aggregate; rows are hand-written):
+
+- `cost_usd` — measured spend for the aggregate (candidate runs + judge
+  calls), populated from provider dashboards/billing after each run, or priced
+  from measured token usage via the published per-model price table (which is
+  why `jev_judge.py --model` stamps the model identity into `--json-out`).
+  Honest measured entry either way; never a heuristic estimate — and never
+  the judge-side chars/4 `est_cost_usd`, which prices the judge call, not the
+  candidate. Stays blank until a real campaign prices it.
+- `wall_time_s` — median wall-clock seconds per attempt (candidate-side
+  latency; see runbook "Wall-clock discipline"). Median, not mean — latency
+  distributions are skewed.
+- `post_training` — MANDATORY per row: the candidate's post-training lineage
+  from vendor release notes (e.g. `instruct-rlhf-v2`, `distilled`). When the
+  vendor discloses nothing, the value is the literal string `unknown` — never
+  blank, never omitted. Honest caveat: vendors rarely disclose recipes, so
+  expect mostly `unknown` at first; test whether it correlates with scores
+  after 2+ campaigns and drop the field if it carries no signal.
+
 ## Running the tasks
 
 **T1.** Hand `tasks/T1-global-review.md` verbatim to the candidate with
@@ -204,6 +232,14 @@ options as (jev_choice, senior_choice), which `src/llm_workflow_eval/judge/calib
 into Cohen's κ — and append one row per (harness, model, task)
 aggregate to `results/scorecard.csv`.
 
+**Senior gate (bootstrap).** Senior grading is the expensive tier; it is
+spend-gated. The first 6 senior spot-checks (one per T1 item, or the
+equivalent for T2/T3) are exempt and establish the agreement baseline —
+this resolves the circularity of gating senior grades on an agreement that
+only senior grades can measure. The gate applies thereafter: no *further*
+senior spend until cheap-tier agreement meets the calibration bar. Full
+rule: runbook "Campaign reporting rules".
+
 **promptfoo (optional).** Copy `examples/promptfoo.example.yaml` to
 `promptfoo.yaml`, fill in providers, run `promptfoo eval --repeat 3`. The
 example matrix covers Codex SDK (GPT-6 Luna/Sol), Claude Agent SDK, and
@@ -254,8 +290,8 @@ src/llm_workflow_eval/harness/
 docs/
   methodology.md             this file (full methodology)
   runbook.md                 Stage -1 runbook
-  landscape.md               surveyed benchmark literature + implications
-  iteration-log.md           dated iteration log
+  knowledge/landscape.md      surveyed benchmark literature + implications
+  iterations/iteration-log.md dated iteration log
 results/
   scorecard.csv              one row per (harness, model, task) aggregate
   calibration.csv            senior spot-check log for the calibration ritual

@@ -1,9 +1,9 @@
 # Pack test overview — "eval the evals"
 
-- Timestamp: 2026-10-01T23:50:27-07:00
+- Timestamp: 2026-10-14T23:50:10-07:00
 - Python: 3.12.3
 - Command: `python3 tests/run_all.py` (from pack root)
-- Tests run: 103 · failures: 0 · errors: 0 · skipped: 0
+- Tests run: 104 · failures: 0 · errors: 0 · skipped: 0
 - **Suite verdict: PASS**
 
 ## Per-module results

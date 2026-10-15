@@ -104,9 +104,10 @@ Gate 1), **isolation** (disposable copies, temp HOME — Gate 2/3), **repeatabil
 (3× runs, Gate 2), **agreement** (Jev vs senior on the calibration rows, κ
 reported via `src/llm_workflow_eval/judge/calibration.py:cohens_kappa`; predeclare a minimum pair
 count first — six items from one calibration call is a noisy point estimate,
-report per L2 not as a point estimate), **cleanup** (manifests, Gate 3), **maximum-cost** (per-run USD
-logged in scorecard; abort threshold declared before the run, e.g. $X —
-set it, write it down, honor it).
+report per L2 not as a point estimate), **cleanup** (manifests, Gate 3), **maximum-cost** (per-run USD logged in
+scorecard; the standing campaign cap is **$25** — declared before every run,
+written into the run-log, honored on hit; cap aborts are [INFRA], never model
+failures — see "Campaign reporting rules").
 
 ## Gate 7 — plural independent review
 
@@ -116,10 +117,124 @@ set it, write it down, honor it).
 - Only then does `METHODOLOGY-REPORT.md` §Go / no-go get re-dated and
   re-signed. Not before.
 
+## Campaign reporting rules (Sprint 1)
+
+Zero-spend, judge-agnostic governance. These rules apply from the first
+candidate campaign onward.
+
+### Reliability log (`results/run-log.jsonl`)
+
+Every attempt — successful or not — gets one JSON line, appended at run time:
+
+```json
+{"date": "2026-10-14", "task": "T1", "candidate": "gpt-6-luna",
+ "harness": "none", "status": "fail", "failure_kind": "t0_gate"}
+```
+
+- `status`: `ok` or `fail` only. `fail` means the attempt produced no usable
+  graded output (T0 fail, judge parse failure, harness crash, cap abort).
+- `failure_kind`: free-text cause — `t0_gate`, `judge_parse`,
+  `harness_crash`, `cap_abort`, `operator_abort`. New kinds are added as they
+  occur; do not invent kinds prospectively.
+- `note` (optional): free-text annotation — e.g. the template marker on the
+  example line. Never required; parsers must tolerate its absence.
+- Append-only: never edit or delete a line. An invalid run is a `fail` line,
+  not a deletion.
+- Reporting: failure rate per (candidate × task) is printed next to pass@k
+  in every campaign report. **`cap_abort` lines are excluded from the
+  failure-rate computation** — a cap abort is [INFRA], logged so the
+  campaign's spend story is complete, but it says nothing about the
+  candidate and must never push one over the 10% bar.
+- **Rule:** >10% unusable output → the candidate is **not recommended**,
+  regardless of its score. (10% is a proposed heuristic — AssemblyAI excluded
+  unreliable models but published no threshold.) Reliability is a gate, not a
+  footnote.
+
+### Wall-clock discipline
+
+Candidate latency is measured by the operator at run time — a stopwatch,
+not an estimate:
+
+- Start the clock when the candidate run starts; stop when its output file is
+  written. One number per attempt, seconds.
+- Populate the scorecard's `wall_time_s` column with the **median** per
+  (candidate × task) — latency distributions are skewed, the mean lies.
+- Record attempts that failed too: they count for the reliability log even
+  when they contribute no score.
+- Judge-side latency is not tracked here — the judge's `est_cost_usd` is a
+  cost estimate, not a latency measure; do not conflate the two.
+
+### Within-tie ordering + quality-per-dollar
+
+The tie rule is already in methodology.md: |Δcomposite| < max observed
+run-spread (max−min across repeats) = **tie**, not a ranking.
+
+- Candidates inside the tie band are ordered by measured `cost_usd` (then
+  `wall_time_s`). A candidate outside the quality band can never win on
+  price — cost is an ordering tiebreaker, not a substitute for capability.
+- **Quality-per-dollar decision rule:** the ratio governs ONLY when
+  (a) the budget binds — the raw-quality winner cannot be graded within the
+  $25 cap, so the choice is among affordable candidates, ranked by
+  quality-per-dollar — or (b) raw scores tie inside the band. Otherwise
+  the raw quality ranking stands. Note what (a) is NOT: it is not a ratio
+  against an unmeasured score — if A was never graded, its composite is
+  [OPEN], not an input to the ratio.
+- Both rankings are shown side by side in every report: raw (quality) and
+  value-aware (quality-per-dollar). The rule above picks which one decides.
+
+Worked example. A: composite 90, $0.50/task. B: composite 85, $0.05/task.
+Run-spread is 1.2, so 90 vs 85 is NOT a tie.
+
+- Budget non-binding (the $25 cap covers both at planned repeats): **raw
+  ranking decides — A first.** The report shows B's 10× cost advantage
+  alongside, and the operator notes that a binding budget would flip it.
+- Budget binding (grading A's repeats × $0.50/task would blow the $25 cap):
+  A drops out of the affordable set — its 90 is [OPEN] at this budget, not a
+  measured fact to ratio against. Among affordable candidates,
+  quality-per-dollar governs: **B is the recommendation**, with the binding
+  constraint named explicitly ("A ungradable at this budget").
+- If A scored 89.5 and B 90 with spread 1.2, they tie in-band: **B first**,
+  ordered by cost_usd ($0.05 < $0.50).
+
+### $25 campaign cap (guardrail)
+
+Standing decision (Sakura, 2026-10-03): the campaign stops when cumulative
+spend across candidate runs + judge calls + senior grading reaches **$25**.
+
+- Track spend as the campaign runs (provider dashboards/billing after each
+  batch — manual, honest). Reaffirm Gate 6's $25 maximum-cost line before
+  each run (the line is standing, not per-run mutable).
+- On cap hit: **stop immediately.** The abort is logged in run-log.jsonl with
+  `failure_kind: cap_abort` and status `fail` for the unstarted attempts.
+  A cap abort is [INFRA] — the run plan was too expensive; it is never a
+  model failure and never counted against a candidate's score.
+- Report the partial results with the cap hit named: which runs completed,
+  which were aborted, and what the completed portion cost. Never silently
+  drop the aborted half of a campaign.
+
+### Senior gate (bootstrap clause)
+
+The naive gate — "no senior grades until cheap-tier agreement meets the
+bar" — deadlocks: agreement is *measured by* senior grades.
+
+- **Bootstrap:** the first 6 senior spot-checks (one per T1 item, or the
+  equivalent for T2/T3) are exempt from the gate. They establish the
+  agreement baseline (`results/calibration.csv`).
+- **Gate applies thereafter:** no *further* senior spend until cheap-tier
+  agreement meets the calibration bar (|diff| ≤ 0.15 rate, per
+  `src/llm_workflow_eval/judge/calibration.py` — noting that 0.15 is itself a
+  v1 heuristic from `calibration.py`'s `AGREE_TOLERANCE`, derived from an n=6
+  in-sample analysis, not a principled threshold). If agreement holds, senior
+  spend stays at the spot-check sampling rate; if it drops, senior grading
+  pauses with the cheap tier until the rubric/judge wording is fixed and
+  re-run (the convergence loop, B-3).
+- Senior grading is the expensive tier by design — this gate exists to keep
+  it that way.
+
 ## Handover checklist (Sakura)
 
 - [ ] Jev API key (Secure Vault link — never paste in chat)
 - [ ] Candidate shortlist confirmed (pilot plan: `examples/promptfoo.example.yaml` — T1 on GPT-6 Luna + Sol via Codex first)
 - [ ] Codex CLI signed in on this machine (or wherever the runs will execute)
 - [ ] GPT credit verified sufficient at platform.openai.com
-- [ ] Max-cost abort threshold declared — write the number here: $____ (Gate 6 needs the number before any run)
+- [ ] Max-cost abort threshold declared — **$25** (standing campaign cap, Sakura 2026-10-03; Gate 6 honors it before any run)

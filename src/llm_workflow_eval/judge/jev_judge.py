@@ -36,8 +36,11 @@ sampled runs plus every item flagged below the low-confidence threshold
 
 --json-out writes a machine-readable result for src/llm_workflow_eval/judge/aggregate.py
 (pass@k / pass^k over repeated runs):
-    {"task", "composite", "mean_confidence", "flagged", "items",
-     "deterministic_recall", "est_cost_usd"}
+    {"task", "model", "candidate", "composite", "mean_confidence", "flagged",
+     "items", "deterministic_recall", "est_cost_usd"}
+`model`/`candidate` are the candidate identity (--model flag / --candidate
+file): stamped so a per-model price table can price cost_usd onto the
+payload later. `model` is null when --model is omitted.
 """
 import argparse
 import json
@@ -142,6 +145,15 @@ def main():
         help="flag items with confidence below this value for senior review "
              f"(default {LOW_CONF_THRESHOLD}; uncalibrated heuristic — see "
              "README for the migration path to a target-agreement rule)",
+    )
+    ap.add_argument(
+        "--model",
+        default=None,
+        help="model identifier for this candidate run (e.g. gpt-6-luna). "
+             "Stamped into --json-out as \"model\" alongside \"candidate\" "
+             "(the --candidate file path), so cost_usd can be priced from "
+             "a per-model price table. Optional: older invocations without "
+             "it stamp \"model\": null.",
     )
     ap.add_argument(
         "--fixture-vintage",
@@ -276,6 +288,12 @@ def main():
         mean_conf = (sum(confs) / len(confs)) if confs else None
         payload = {
             "task": load_rubric_task(args.rubric),
+            # Candidate identity: --model label plus the --candidate file
+            # path. Without a model identifier no per-model price table can
+            # ever price cost_usd onto this payload — that is why --model
+            # exists (A-1). "model" is null when the flag was omitted.
+            "model": args.model,
+            "candidate": args.candidate,
             # Unique per invocation: lets src/llm_workflow_eval/judge/aggregate.py detect the same
             # rollout file being counted twice (copies share content but keep
             # the original run_id; independent rollouts never collide).

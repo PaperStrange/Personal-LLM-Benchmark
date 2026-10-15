@@ -7,15 +7,19 @@ zero spend and no judge dependency. **Backlog items:** A-1…A-6, B-1.
 ## Stories and acceptance criteria
 
 **S1.1 — Candidate identity in judge outputs (A-1, code)**
-`jev_judge.py` accepts `--model`/`--candidate`; the values are stamped into every
+`jev_judge.py` gains a `--model` flag (the pre-existing required
+`--candidate` file argument is kept); both values are stamped into every
 `--json-out` payload. Existing tests updated; new test asserts the stamp is
-present. AC: `python3 -m pytest` (the pack's suite) green; `--json-out` from a
-dry invocation contains `model` and `candidate` fields.
+present. AC: `python3 tests/run_all.py` (the pack's suite) green; `--json-out`
+from a dry invocation contains `model` and `candidate` fields.
 
-**S1.2 — `post_training` lineage field (A-6, small code)**
+**S1.2 — `post_training` lineage field (A-6, schema)**
 Scorecard schema gains a mandatory `post_training` field; empty/unknown allowed
 with an explicit `unknown` value (never blank). AC: schema documented in
-methodology.md; aggregate/scorecard code accepts and preserves it.
+methodology.md; correction (review, 2026-10-14): no code in the pack reads or
+writes `results/scorecard.csv` — rows are hand-written by design — so the
+schema change is the CSV header plus documented semantics, and no code path
+can read or drop the column.
 
 **S1.3 — Reliability log (A-2, code + docs)**
 `results/run-log.jsonl` schema defined: `date, task, candidate, harness, status
