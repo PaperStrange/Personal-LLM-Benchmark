@@ -311,6 +311,62 @@ candidates; must hit rubric floors) before any claim is made about it.
 | "+0.33 Decider offset" calibration | V6 compression artifact | Nothing — the offset was never a calibration |
 | $25 cap as the only budget treatment | V5 gap analysis | Tier 1 iterations (cost-as-metric columns) |
 
+## Appendix: failure pattern catalog (added 2026-10-14)
+
+How to reuse the failures: each killed path died a *specific, recognizable*
+death. A new judge candidate is not evaluated from scratch — it is checked
+against these signatures first, cheapest test first. If it matches a signature,
+it is dead on arrival.
+
+**P1 — Same-model leniency.** *Died: V2 (Qwen2.5-1.5B stand-in).*
+Signature: composite above the success threshold on zero-evidence candidates
+(68.3 on 0/22); recall 1–2/3 against identical 0/22 ground truth; confidence
+0.85–0.95 with zero low-confidence flags; ~1 point generous on most items;
+vacuous precision (0.95 for zero cited references).
+Check: grade the banked 0/22 candidates — recall must hit the rubric floor (0).
+
+**P2 — Weaker-model instability.** *Died: V3 (Llama-3.2-1B stand-in).*
+Signature: *higher* composite than the stronger stand-in (85.7 > 68.3) on the
+same 0/22; recall 3/3 at confidence 1.00; judge emits unparseable scores;
+candidate-side truncation.
+Check: stability floor first (3/3 clean T0 passes, 3/3 parseable judgments)
+before any quality claim. Weaker ≠ stricter.
+
+**P3 — Compression, no dynamic range.** *Died: V6 (Decider 2B v21 int8).*
+Signature: all 24 scores in 0.436–0.571 regardless of input quality; a
+stable-looking offset that is actually a compression artifact (in-sample
+"+0.33" fit 6 items, collapsed out-of-candidate); structural omissions
+invisible (missing risk register/plan scored ≈ same as complete).
+Check: (a) 0-anchor candidate must score rubric floor on recall; (b) a
+structurally broken candidate (run2: no risks, no plan) must score clearly
+lower on risks/plan than a complete one; (c) score spread across known-good and
+known-bad inputs must exceed ±0.06.
+
+**P4 — Phantom calibration on n=1.** *Died: V4→V6.*
+Signature: a clean-looking correction (offset, scaling) fit on a tiny anchor
+(one candidate, one sitting) that holds in-sample and dies out-of-sample.
+Check: state the anchor's n; no correction ships without an out-of-candidate
+test on a different candidate.
+
+**P5 — Vacuous gate pass.** *Died: V2 (T0 v1).*
+Signature: a zero-evidence input passes the deterministic gate
+(`t1_refs_valid` on zero references).
+Check: every gate gets a null-input probe — feed it nothing and confirm it
+fails. Closed by gate v2; the probe stays as regression discipline.
+
+**P6 — Infra abort counted as candidate failure.** *Died: Sprint 1 review.*
+Signature: a runbook tells operators to log budget aborts as `status: fail`
+while also declaring aborts [INFRA] "never counted against a candidate" —
+so an early abort can push a candidate over a disqualification bar.
+Check: failure-rate computations exclude `cap_abort` lines; any new
+disqualification rule is audited for infra-contamination before adoption.
+
+**P7 — Unlabeled simulation as measurement.** *Died: V1.*
+Signature: [SIM] values (mock-Jev scores) quoted without labels, drifting
+toward being cited as results.
+Check: every claim carries [REAL]/[SIM]/[OPEN]; any number without a label is
+treated as [OPEN] until labeled.
+
 ## Current state + critical path (2026-10-13)
 
 - **Stage −1: NO-GO.** Gate 4 (live Jev calibration) is the blocker; Gates 1–3, 5–6
