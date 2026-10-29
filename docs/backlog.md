@@ -61,6 +61,13 @@ fresh re-read of the world.
 | F-1 | Human labor-time baselines for the value-weighted comparison | P2 | TODO (Tier 3) |
 | F-2 | Second cheap judge on a sample (cross-judge agreement) | P2 | TODO (Tier 3) |
 
+## Epic G — Harness candidates
+
+| ID | Story | Priority | Status |
+|---|---|---|---|
+| G-1 | Ruflo zero-spend dry run (see `docs/knowledge/ruflo-harness-brief.md`): verify tree + license + Mods docs, exercise CLI with no model calls, T2-shaped dry run on synthetic fixture, pass/fail + kill criteria | P1 | TODO (needs Sakura's greenlight) |
+| G-2 | Ruflo live evaluation (pairs with candidate models; grading still needs C-1) | P1 | BLOCKED (on C-1 + fuel gauge + G-1 pass) |
+
 ## Done (reference — the validated past)
 
 - V1 dry run (2026-09-22), V2/V3 open loops (2026-09-30), V4 Gate 4a (2026-10-09),
