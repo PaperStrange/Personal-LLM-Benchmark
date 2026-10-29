@@ -65,8 +65,8 @@ fresh re-read of the world.
 
 | ID | Story | Priority | Status |
 |---|---|---|---|
-| G-1 | Ruflo zero-spend dry run (see `docs/knowledge/ruflo-harness-brief.md`): verify tree + license + Mods docs, exercise CLI with no model calls, T2-shaped dry run on synthetic fixture, pass/fail + kill criteria | P1 | TODO (needs Sakura's greenlight) |
-| G-2 | Ruflo live evaluation (pairs with candidate models; grading still needs C-1) | P1 | BLOCKED (on C-1 + fuel gauge + G-1 pass) |
+| G-1 | Ruflo zero-spend dry run (see `docs/knowledge/ruflo-harness-brief.md`): verify tree + license + Mods docs, exercise CLI with no model calls, T2-shaped dry run on synthetic fixture, pass/fail + kill criteria | P1 | DONE (zero-spend scope only; substance criteria → G-2; report: `docs/knowledge/ruflo-dry-run-g1-report.md`, review: `docs/reviews/review-ruflo-g1-2026-10-28.md`) |
+| G-2 | Ruflo live evaluation (pairs with candidate models; grading still needs C-1) | P1 | BLOCKED (on C-1 + fuel gauge + enforce-mode rules authored + T2 run design inside Claude Code/Codex) |
 
 ## Done (reference — the validated past)
 
